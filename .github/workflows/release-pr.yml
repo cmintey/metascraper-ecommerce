@@ -10,13 +10,19 @@ on:
             - main
 
 jobs:
-    publish:
+    create-pr:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v7
               with:
                   fetch-depth: 0
+
+            - uses: pnpm/action-setup@v6
+              name: Install pnpm
+              id: pnpm-install
+              with:
+                  run_install: false
 
             - name: Update package.json version
               shell: bash
