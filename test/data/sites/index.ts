@@ -1,0 +1,136 @@
+import type { SiteTest } from "../../types.js";
+
+export default [
+    {
+        sitename: "walmart",
+        url: "https://www.walmart.com/ip/Bose-QuietComfort-Ultra-Headphones-II-Bluetooth-Over-Ear-Noise-Cancelling-Headphones-Black/16093316143",
+        expectedData: {
+            name: "Bose QuietComfort Ultra Headphones II, Bluetooth Over Ear Noise Cancelling Headphones, Black - Walmart.com",
+            price: "449.00",
+            currency: "USD",
+            brand: null,
+            image: "https://i5.walmartimages.com/seo/Bose-QuietComfort-Ultra-Headphones-II-Bluetooth-Over-Ear-Noise-Cancelling-Headphones-Black_27fb5389-4dfd-4d0c-bfb8-8f75ad31cf4a.2368aef2e63b5f0a5d216d7221323822.jpeg",
+            retailer: "Walmart.com",
+        },
+    },
+    {
+        sitename: "amazon",
+        url: "https://www.amazon.com/Roku-Smart-2026-Television-Streaming/dp/B0FXZ21F3X",
+        expectedData: {
+            name: "Roku 55-Inch Select Series Smart TV 2026-4K (2160p) QLED TV TV",
+            price: "279.99",
+            currency: "USD",
+            brand: null,
+            image: "https://m.media-amazon.com/images/I/81+lkZSpzAL._AC_SY300_SX300_QL70_ML2_.jpg",
+            retailer: null,
+        },
+    },
+    {
+        sitename: "homedepot",
+        url: "https://www.homedepot.com/p/Milwaukee-M12-FUEL-12-Volt-Lithium-Ion-Brushless-Cordless-Hammer-Drill-and-Impact-Driver-Combo-Kit-w-2-Batteries-and-Bag-2-Tool-3497-22/320268525#overlay",
+        expectedData: {
+            name: "Milwaukee M12 FUEL 12-Volt Lithium-Ion Brushless Cordless Hammer Drill and Impact Driver Combo Kit w/2 Batteries and Bag (2-Tool) 3497-22",
+            price: "249.00",
+            currency: "USD",
+            brand: "Milwaukee",
+            image: "https://images.thdstatic.com/productImages/dd01350e-d8fd-4530-94be-b710147105df/svn/milwaukee-power-tool-combo-kits-3497-22-64_1000.jpg",
+            retailer: "The Home Depot",
+        },
+    },
+    {
+        sitename: "target",
+        url: "https://www.target.com/p/bose-quietcomfort-bluetooth-wireless-noise-cancelling-headphones-2nd-gen/-/A-1013153125?preselect=95009030",
+        expectedData: {
+            name: "Bose QuietComfort Bluetooth Wireless Noise Cancelling Headphones (2nd Gen)- Black",
+            price: null,
+            currency: null,
+            brand: null,
+            image: "https://target.scene7.com/is/image/Target/GUEST_64f98e76-8c79-4ce4-abfd-867525d08235",
+            retailer: null,
+        },
+    },
+    {
+        sitename: "lowes",
+        url: "https://www.lowes.com/pd/DEWALT-20-Volt-Max-1-2-in-Cordless-Drill-Charger-Included/50040962",
+        expectedData: {
+            name: "DEWALT 20-volt Max 1/2-in Keyless Cordless Drill 2 -Batteries Included, and Charger Included",
+            price: "129.00",
+            currency: "USD",
+            brand: "DEWALT",
+            image: "https://mobileimages.lowes.com/productimages/98901790-b0c3-4fcd-ac02-26524801b302/94752317.jpeg?size=sm",
+            retailer: "Lowe's",
+        },
+    },
+    {
+        sitename: "apple",
+        url: "https://www.apple.com/shop/buy-iphone/iphone-18-pro",
+        expectedData: {
+            name: "iPhone 18 Pro",
+            price: "1199.00",
+            currency: "USD",
+            brand: null,
+            image: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-model-unselect-gallery-1-202609_FMT_WHH?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1786041736271",
+            retailer: "Apple",
+        },
+    },
+    {
+        sitename: "bestbuy",
+        url: "https://www.bestbuy.com/product/bose-quietcomfort-wireless-noise-cancelling-over-the-ear-bluetooth-headphones-black/J7C5V6TLLS",
+        expectedData: {
+            name: "Bose - QuietComfort Wireless Noise Cancelling Over-the-Ear Bluetooth Headphones - Black",
+            price: "169.00",
+            currency: "USD",
+            brand: "Bose",
+            image: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/225cab32-5648-4e6b-8c7b-be0fd1bf7ed7.jpg",
+            retailer: "Best Buy",
+        },
+    },
+    {
+        sitename: "macys",
+        url: "https://www.macys.com/shop/product/tramontina-signature-tri-ply-clad-stainless-steel-10-inch-frying-pan-induction-ready-skillet?ID=7342787",
+        expectedData: {
+            name: "Signature Tri-Ply Clad Stainless Steel 10-Inch Frying Pan, Induction-Ready Skillet",
+            brand: "Tramontina",
+            retailer: "Macy's",
+            image: "https://slimages.macysassets.com/is/image/MCY/products/5/optimized/36479155_fpx.tif?$filterlrg$&wid=327",
+            currency: "USD",
+            price: "39.99",
+        },
+    },
+    {
+        sitename: "kohls",
+        url: "https://www.kohls.com/product/prd-3910467/mens-sonoma-goods-for-life-supersoft-essential-crewneck-tee.jsp?color=Grey&topSkuId=59208623",
+        expectedData: {
+            name: null,
+            price: null,
+            currency: null,
+            brand: null,
+            image: null,
+            retailer: null,
+        },
+    },
+    {
+        sitename: "ace",
+        url: "https://www.acehardware.com/departments/tools/power-tools/combo-power-tool-sets/2026543",
+        expectedData: {
+            name: null,
+            price: null,
+            currency: null,
+            brand: null,
+            image: null,
+            retailer: null,
+        },
+    },
+    {
+        sitename: "temu",
+        url: "https://www.temu.com/unisex-soft-slides-able-indoor-outdoor-flip-flops-with-non-slip-textured-sole-adjustable-ankle-strap-and-arch-support-beige-brown-perfect-for-casual-wear--slippers-open-toe-design-eva-material-house-slippers-g-601100212808380.html?_oak_mp_inf=ELzVouWo1ogBGiBmYjA4YWZiYmMwNWU0ZTNmYmRjNTRmNmU4MWJlMmI2NyCrjqW%2BlDQ%3D&top_gallery_url=https%3A%2F%2Fimg.kwcdn.com%2Fproduct%2Ffancy%2Fe3f4573d-9885-4e5d-b42f-e5ece0f4636d.jpg&spec_gallery_id=595230&refer_page_sn=10005&freesia_scene=1&_oak_freesia_scene=1&_oak_rec_ext_1=NDA2&_oak_gallery_order=1333921783&refer_page_el_sn=200024&refer_page_name=home&refer_page_id=10005_1792205734599_frvt52y5xc&_x_sessn_id=2hfksag1jz",
+        expectedData: {
+            name: null,
+            price: null,
+            currency: null,
+            brand: null,
+            image: null,
+            retailer: null,
+        },
+    },
+] as SiteTest[];

@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        // Environment Settings
+        // See also https://aka.ms/tsconfig/module
+        "module": "node18",
+        "target": "es2020",
+        "lib": ["esnext"],
+        "types": ["node"],
+
+        // Other Outputs
+        "sourceMap": false,
+        "declaration": true,
+        "declarationMap": false,
+
+        // Stricter Typechecking Options
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+
+        // Recommended Options
+        "strict": true,
+        "verbatimModuleSyntax": true,
+        "isolatedModules": true,
+        "noUncheckedSideEffectImports": true,
+        "moduleDetection": "force",
+        "skipLibCheck": true
+    },
+    "include": ["src", "test"]
+}

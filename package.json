@@ -1,0 +1,52 @@
+{
+    "name": "@cmintey/metascraper-ecommerce",
+    "version": "1.0.0",
+    "private": false,
+    "description": "A plugin for metascraper to extract product information from HTML markup on ecommerce sites.",
+    "license": "MIT",
+    "author": "cmintey",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cmintey/metascraper-ecommerce"
+    },
+    "files": [
+        "dist/"
+    ],
+    "type": "module",
+    "main": "dist/index.mjs",
+    "exports": {
+        ".": "./dist/index.mjs"
+    },
+    "scripts": {
+        "build": "rm -rf dist/* && tsdown",
+        "check": "oxlint && oxfmt --check && tsc --noEmit",
+        "format": "oxfmt",
+        "format:check": "oxfmt --check",
+        "lint": "oxlint",
+        "lint:fix": "oxlint --fix",
+        "test": "DEBUG='metascraper*' vitest",
+        "fetch-url": "node scripts/fetch-url.js"
+    },
+    "dependencies": {
+        "@metascraper/helpers": "^5.58.4"
+    },
+    "devDependencies": {
+        "@types/node": "^26.6.5",
+        "@vitest/ui": "5.0.1",
+        "impit": "^0.14.6",
+        "metascraper": "^5.58.5",
+        "oxfmt": "^0.73.0",
+        "oxlint": "^1.88.0",
+        "oxlint-tsgolint": "^7.0.2004",
+        "prettier": "^3.9.10",
+        "puppeteer": "^25.14.0",
+        "strip-ansi": "^7.2.0",
+        "tsdown": "^0.23.1",
+        "typescript": "~6.0.3",
+        "vitest": "^5.0.5"
+    },
+    "peerDependencies": {
+        "metascraper": "^5.58.5"
+    },
+    "packageManager": "pnpm@11.27.1+sha512.a81d4c21b9b09a4b0aebf90ef5e527d4262bdda322d26082978cb549023ac6d9cafc98b19fffaa5c71db438a65f70224edb78d7311187861ff96480d1cdca23c"
+}
