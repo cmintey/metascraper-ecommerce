@@ -1,0 +1,31 @@
+name: Publish release
+permissions:
+    contents: write
+    pull-requests: write
+    checks: write
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+
+            - name: Update package.json version
+              shell: bash
+              run: pnpm version minor --no-git-tag-version --allow-same-version
+
+            - name: Create Pull Request for Version Bump
+              uses: peter-evans/create-pull-request@v8
+              with:
+                  branch: release/version-bump
+                  base: main
+                  title: "chore: bump package version"
+                  commit-message: "chore: bump package version"
