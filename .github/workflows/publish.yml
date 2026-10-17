@@ -1,118 +1,118 @@
 name: Publish release
 permissions:
-  contents: read
-  pull-requests: read
-  checks: write
-  actions: write
-  id-token: write
+    contents: read
+    pull-requests: read
+    checks: write
+    actions: write
+    id-token: write
 on:
-  workflow_dispatch:
-  release:
-    types: [published]
+    workflow_dispatch:
+    release:
+        types: [published]
 
 jobs:
-  publish:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
+    publish:
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
 
-      - uses: pnpm/action-setup@v6
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          run_install: false
+            - uses: pnpm/action-setup@v6
+              name: Install pnpm
+              id: pnpm-install
+              with:
+                  run_install: false
 
-      - name: Install Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
+            - name: Install Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version: 24
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              shell: bash
+              run: |
+                  echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v6
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+            - uses: actions/cache@v6
+              name: Setup pnpm cache
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies
-        run: pnpm install
+            - name: Install dependencies
+              run: pnpm install
 
-      - name: Run checks
-        run: pnpm check
+            - name: Run checks
+              run: pnpm check
 
-      - name: Extract version and package info
-        id: package_info
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          echo "🔍 Determining version from release context..."
-          echo "Event name: ${{ github.event_name }}"
+            - name: Extract version and package info
+              id: package_info
+              shell: bash
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              run: |
+                  echo "🔍 Determining version from release context..."
+                  echo "Event name: ${{ github.event_name }}"
 
-          # Get the tag name from release event OR latest release
-          if [ "${{ github.event_name }}" = "release" ]; then
-          # Automatic trigger from release event
-          TAG_NAME="${{ github.event.release.tag_name }}"
-          echo "📦 Using version from release event: $TAG_NAME"
-          else
-          # Manual trigger or other - fetch latest release
-          echo "📦 Fetching latest release..."
-          TAG_NAME=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
-          echo "📦 Using version from latest release: $TAG_NAME"
-          fi
+                  # Get the tag name from release event OR latest release
+                  if [ "${{ github.event_name }}" = "release" ]; then
+                  # Automatic trigger from release event
+                  TAG_NAME="${{ github.event.release.tag_name }}"
+                  echo "📦 Using version from release event: $TAG_NAME"
+                  else
+                  # Manual trigger or other - fetch latest release
+                  echo "📦 Fetching latest release..."
+                  TAG_NAME=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
+                  echo "📦 Using version from latest release: $TAG_NAME"
+                  fi
 
-          # Remove 'v' prefix if present (v1.2.3 → 1.2.3)
-          VERSION=${TAG_NAME#v}
+                  # Remove 'v' prefix if present (v1.2.3 → 1.2.3)
+                  VERSION=${TAG_NAME#v}
 
-          # Get package name from package.json
-          PACKAGE_NAME=$(node -p "require('./package.json').name")
+                  # Get package name from package.json
+                  PACKAGE_NAME=$(node -p "require('./package.json').name")
 
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-          echo "package_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
-          echo "📦 Package: ${PACKAGE_NAME}"
-          echo "📦 Version to publish: ${VERSION}"
+                  echo "version=${VERSION}" >> $GITHUB_OUTPUT
+                  echo "package_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+                  echo "📦 Package: ${PACKAGE_NAME}"
+                  echo "📦 Version to publish: ${VERSION}"
 
-      - name: Update package.json version
-        shell: bash
-        run: |
-          # Update package.json with the release version
-          pnpm version ${{ steps.package_info.outputs.version }} --no-git-tag-version --allow-same-version
-          echo "✅ Updated package.json to version ${{ steps.package_info.outputs.version }}"
+            - name: Update package.json version
+              shell: bash
+              run: |
+                  # Update package.json with the release version
+                  pnpm version ${{ steps.package_info.outputs.version }} --no-git-tag-version --allow-same-version
+                  echo "✅ Updated package.json to version ${{ steps.package_info.outputs.version }}"
 
-      - name: Commit and push updated files
-        shell: bash
-        run: |
-          # Configure git
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+            - name: Commit and push updated files
+              shell: bash
+              run: |
+                  # Configure git
+                  git config --local user.email "github-actions[bot]@users.noreply.github.com"
+                  git config --local user.name "github-actions[bot]"
 
-          # Add standard files
-          git add package.json
+                  # Add standard files
+                  git add package.json
 
-          # Check if there are changes to commit
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "release: bump version to v${{ steps.package_info.outputs.version }}"
-            git push origin main
-            echo "✅ Pushed updated files to main branch"
-          fi
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+                  # Check if there are changes to commit
+                  if git diff --staged --quiet; then
+                    echo "No changes to commit"
+                  else
+                    git commit -m "release: bump version to v${{ steps.package_info.outputs.version }}"
+                    git push origin main
+                    echo "✅ Pushed updated files to main branch"
+                  fi
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Build
-        run: pnpm build
+            - name: Build
+              run: pnpm build
 
-      - name: Publish
-        run: pnpm publish --access public --provenance
+            - name: Publish
+              run: pnpm publish --access public --provenance
