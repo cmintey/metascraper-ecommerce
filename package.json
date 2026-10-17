@@ -1,6 +1,6 @@
 {
     "name": "@cmintey/metascraper-ecommerce",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "private": false,
     "description": "A plugin for metascraper to extract product information from HTML markup on ecommerce sites.",
     "license": "MIT",
