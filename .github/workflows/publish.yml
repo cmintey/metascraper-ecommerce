@@ -51,54 +51,8 @@ jobs:
             - name: Run checks
               run: pnpm check
 
-            - name: Extract version and package info
-              id: package_info
-              shell: bash
-              run: |
-                  echo "🔍 Determining version from release context..."
-                  echo "Event name: ${{ github.event_name }}"
-
-                  # Get the tag name from release event OR latest release
-                  if [ "${{ github.event_name }}" = "release" ]; then
-                  # Automatic trigger from release event
-                  TAG_NAME="${{ github.event.release.tag_name }}"
-                  echo "📦 Using version from release event: $TAG_NAME"
-                  else
-                  # Manual trigger or other - fetch latest release
-                  echo "📦 Fetching latest release..."
-                  TAG_NAME=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
-                  echo "📦 Using version from latest release: $TAG_NAME"
-                  fi
-
-                  # Remove 'v' prefix if present (v1.2.3 → 1.2.3)
-                  VERSION=${TAG_NAME#v}
-
-                  # Get package name from package.json
-                  PACKAGE_NAME=$(node -p "require('./package.json').name")
-
-                  echo "version=${VERSION}" >> $GITHUB_OUTPUT
-                  echo "package_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
-                  echo "📦 Package: ${PACKAGE_NAME}"
-                  echo "📦 Version to publish: ${VERSION}"
-
-            - name: Update package.json version
-              shell: bash
-              run: |
-                  # Update package.json with the release version
-                  pnpm version ${{ steps.package_info.outputs.version }} --no-git-tag-version --allow-same-version
-                  echo "✅ Updated package.json to version ${{ steps.package_info.outputs.version }}"
-
             - name: Build
               run: pnpm build
 
             - name: Publish
               run: pnpm publish --access public --provenance
-
-            - name: Create Pull Request for Version Bump
-              uses: peter-evans/create-pull-request@v8
-              with:
-                  branch: release/version-bump
-                  base: main
-                  title: "Bump package version to ${{ env.VERSION }}"
-                  body: "This PR updates the package version to ${{ env.VERSION }}."
-                  commit-message: "chore: bump package version to ${{ env.VERSION }}"
